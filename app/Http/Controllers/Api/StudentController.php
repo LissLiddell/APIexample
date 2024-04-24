@@ -127,10 +127,26 @@ class StudentController extends Controller
             }else{
                 return response()->json([
                     'status' => 404,
-                    'message' => "Not such Student Foun"
+                    'message' => "Not such Student Found"
                 ],404);
             }
         }    
     }
     
+    public function destroy($id)
+    {
+        $student = Student::find($id);
+        if($student){
+            $student->delete();
+            return response()->json([
+                'status' => 200,
+                'message' => "Student Deleted Successfully"
+            ],200);
+        }else{
+            return response()->json([
+                'status' => 404,
+                'message' => "Not such Student Found"
+            ],404);
+        }
+    }
 }

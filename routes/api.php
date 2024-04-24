@@ -18,3 +18,5 @@ Route::get('students/{id}', [StudentController::class,'show']);
 Route::get('students/{id}/edit', [StudentController::class,'edit']);
 //Apply Update
 Route::put('students/{id}/edit', [StudentController::class,'update']);
+//Delete Record
+Route::delete('students/{id}/delete', [StudentController::class,'destroy']);
