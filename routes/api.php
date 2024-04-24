@@ -10,7 +10,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('students', [StudentController::class,'index']);
-//insertar 
+//Insert 
 Route::post('students', [StudentController::class,'store']);
-//Mostrar
+//Select
 Route::get('students/{id}', [StudentController::class,'show']);
+//update get file
+Route::get('students/{id}/edit', [StudentController::class,'edit']);
+//Apply Update
+Route::put('students/{id}/edit', [StudentController::class,'update']);
