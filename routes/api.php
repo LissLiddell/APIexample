@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\StudentController;
+use App\Http\Controllers\Api\UserController;
 
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
@@ -20,3 +21,5 @@ Route::get('students/{id}/edit', [StudentController::class,'edit']);
 Route::put('students/{id}/edit', [StudentController::class,'update']);
 //Delete Record
 Route::delete('students/{id}/delete', [StudentController::class,'destroy']);
+// Start session
+Route::get('login', [UserController::class,'login']);
