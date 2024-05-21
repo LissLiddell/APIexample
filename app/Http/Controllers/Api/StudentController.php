@@ -34,31 +34,40 @@ class StudentController extends Controller
             'email' => 'required|email|max:191',
             'phone' => 'required|digits:10',
         ]);
-
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        }else{
-            $student = Student::create([
-                'name' => $request->name,
-                'course' => $request->course,
-                'email' => $request->email,
-                'phone' => $request->phone,
-            ]);
-
-            if($student){
+        try {
+            if($validator->fails()){
                 return response()->json([
-                    'status' => 200,
-                    'message' => "Student Created Successfully"
-                ],200);
+                    'status' => 422,
+                    'errors' => $validator->messages()
+                ], 422);
             }else{
-                return response()->json([
-                    'status' => 500,
-                    'message' => "Something Went Wrong"
-                ],500);
+                $student = Student::create([
+                    'name' => $request->name,
+                    'course' => $request->course,
+                    'email' => $request->email,
+                    'phone' => $request->phone,
+                ]);
+
+                if($student){
+                    return response()->json([
+                        'status' => 200,
+                        'message' => "Student Created Successfully"
+                    ],200);
+                }else{
+                    return response()->json([
+                        'status' => 500,
+                        'message' => "Something Went Wrong"
+                    ],500);
+                }
             }
+        } catch (\Exception $e) {
+            // Captura y registra cualquier excepción
+            error_log($e->getMessage());
+    
+            return response()->json([
+                'status' => 500,
+                'message' => "An error occurred while creating the student"
+            ], 500);
         }
     }
 
@@ -78,59 +87,45 @@ class StudentController extends Controller
         }
     }
 
-    public function edit($id)
-    {
-        $student = Student::find($id);
-        if($student){
-            return response()->json([
-                'status' => 200,
-                'student' => $student
-            ],200);
-        }else{
-            return response()->json([
-                'status' => 404,
-                'message' => "No such student found"
-            ],404);
-        }
-    }
-
     public function update(Request $request, int $id)
     {
-        $validator = Validator::make($request->all(),[
-            'name' => 'required|string|max:191',
-            'course' => 'required|string|max:191',
-            'email' => 'required|email|max:191',
-            'phone' => 'required|digits:10',
-        ]);
+        dd($request->all(), $id);
+        return "ok";
+        // $validator = Validator::make(c,[
+        //     'name' => 'required|string|max:191',
+        //     'course' => 'required|string|max:191',
+        //     'email' => 'required|email|max:191',
+        //     'phone' => 'required|digits:10',
+        // ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status' => 422,
-                'errors' => $validator->messages()
-            ], 422);
-        }else{
-            $student = Student::find($id);
+        // if($validator->fails()){
+        //     return response()->json([
+        //         'status' => 422,
+        //         'errors' => $validator->messages()
+        //     ], 422);
+        // }else{
+        //     $student = Student::find($id);
 
-            if($student){
+        //     if($student){
 
-                $student->update([
-                    'name' => $request->name,
-                    'course' => $request->course,
-                    'email' => $request->email,
-                    'phone' => $request->phone,
-                ]);
+        //         $student->update([
+        //             'name' => $request->name,
+        //             'course' => $request->course,
+        //             'email' => $request->email,
+        //             'phone' => $request->phone,
+        //         ]);
     
-                return response()->json([
-                    'status' => 200,
-                    'message' => "Student Updated Successfully"
-                ],200);
-            }else{
-                return response()->json([
-                    'status' => 404,
-                    'message' => "Not such Student Found"
-                ],404);
-            }
-        }    
+        //         return response()->json([
+        //             'status' => 200,
+        //             'message' => "Student Updated Successfully"
+        //         ],200);
+        //     }else{
+        //         return response()->json([
+        //             'status' => 404,
+        //             'message' => "Not such Student Found"
+        //         ],404);
+        //     }
+        // }    
     }
     
     public function destroy($id)
